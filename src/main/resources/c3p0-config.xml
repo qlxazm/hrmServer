@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<c3p0-config>
+    <!--这是默认的c3p0的配置项目-->
+    <default-config>
+        <property name="user">root</property>
+        <property name="password">qlxazm</property>
+        <property name="driverClass">com.mysql.cj.jdbc.Driver</property>
+        <property name="jdbcUrl">jdbc:mysql://127.0.0.1:3306/hrm_db?serverTimezone=UTC</property>
+        <property name="minPoolSize">6</property>
+        <property name="maxPoolSize">20</property>
+        <property name="initialPoolSize">5</property>
+        <!--当连接多长时间没有向服务器发送请求时，关闭该连接-->
+        <property name="maxIdleTime">20000</property>
+    </default-config>
+    <!--这是命名的c3p0的配置项目，如果想使用命名的配置项目，那么在将c3p0声明成Bean时需要给构造函数传值-->
+
+</c3p0-config>
