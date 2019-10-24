@@ -2,6 +2,7 @@ package org.hrm.filter;
 
 import org.hrm.security.MyUserDetailsService;
 import org.hrm.utils.TokenProvider;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +20,7 @@ public class MyTokenFilter extends GenericFilterBean {
     private MyUserDetailsService userDetailsService;
     private final static String AUTH_TOKEN_HEADER_NAME = "AuthToken";
 
-    public MyTokenFilter(TokenProvider tokenProvider, MyUserDetailsService userDetailsService) {
+    public MyTokenFilter(TokenProvider tokenProvider, MyUserDetailsService userDetailsService, AuthenticationManager authenticationManager) {
         this.tokenProvider = tokenProvider;
         this.userDetailsService = userDetailsService;
     }
@@ -39,6 +40,7 @@ public class MyTokenFilter extends GenericFilterBean {
                 //4、验证token的合法性
                 if (tokenProvider.validateToken(tokenStr, userDetails)) {
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }
             }

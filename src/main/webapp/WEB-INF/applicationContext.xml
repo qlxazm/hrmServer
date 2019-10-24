@@ -23,7 +23,7 @@
     </bean>
 
     <bean id="tokenProvider" class="org.hrm.utils.TokenProvider">
-        <property name="duration" value="60"/>
+        <property name="duration" value="360"/>
     </bean>
 
     <!--启用支持annotation注解方式事务管理-->
