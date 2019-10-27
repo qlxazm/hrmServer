@@ -1,29 +1,35 @@
 package org.hrm.security;
 
+import org.hrm.domain.Permission;
+import org.hrm.domain.Role;
+import org.hrm.service.HrmService;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
-//import org.springframework.security.web.access.expression.WebExpressionConfigAttribute;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.util.AntPathMatcher;
-
 import java.util.*;
 
+/**
+ * @author qian
+ */
 public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
-    private FilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource;
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
-    private final Map<String, String> urlRoleMap = new HashMap<>();
-
-    {
-        urlRoleMap.put("/info", "ROLE_ROOT");
-        urlRoleMap.put("/home", "ROLE_USER");
-    }
+    private final Map<String, Collection<ConfigAttribute>> urlRoleMap = new HashMap<>();
 
 
-    public MyFilterInvocationSecurityMetadataSource(FilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource) {
-        this.filterInvocationSecurityMetadataSource = filterInvocationSecurityMetadataSource;
+    public MyFilterInvocationSecurityMetadataSource(RedisTemplate<String, String> template, HrmService service) {
+        List<Permission> permissions = service.getAllPermissions();
+        for (Permission permission : permissions) {
+            List<ConfigAttribute> roleList = new ArrayList<>();
+            for (Role role : permission.getRoles()){
+                roleList.add(new SecurityConfig(role.getRoleName()));
+            }
+            urlRoleMap.put(permission.getPermission(), roleList);
+        }
+
     }
 
     @Override
@@ -31,16 +37,13 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
         //获取请求的资源路径
         FilterInvocation fi = (FilterInvocation)o;
         String url = fi.getRequestUrl();
-        List<ConfigAttribute> attributeList = new ArrayList<>();
 
-        for (Map.Entry<String, String> entry : urlRoleMap.entrySet()) {
+        for (Map.Entry<String, Collection<ConfigAttribute>> entry : urlRoleMap.entrySet()) {
             if (antPathMatcher.match(entry.getKey(), url)) {
-//                attributeList.add(new WebExpressionConfigAttribute(entry.getValue()));
-//                return SecurityConfig.createList(entry.getValue());
-                attributeList.add(new SecurityConfig(entry.getValue()));
+                return entry.getValue();
             }
         }
-        return attributeList;
+        return new ArrayList<>();
     }
 
     @Override

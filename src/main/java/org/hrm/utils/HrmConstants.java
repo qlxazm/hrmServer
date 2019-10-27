@@ -36,4 +36,6 @@ public class HrmConstants {
 
     public static final String SECURITY_ROLE = "security_role";
     public static final String SECURITY_USER_ROLE = "security_user_role";
+    public static final String SECURITY_PERMISSION = "security_permission";
+    public static final String SECURITY_ROLE_PERMISSION = "security_role_permission";
 }

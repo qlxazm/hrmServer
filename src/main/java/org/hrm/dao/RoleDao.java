@@ -15,4 +15,12 @@ public interface RoleDao {
      */
     @SelectProvider(type = RoleDynaSqlProvider.class, method = "findRolesByUserName")
     List<Role> findRolesByUserName(User user);
+
+    /**
+     * 根据权限id查询该权限对应的角色
+     * @param id
+     * @return
+     */
+    @SelectProvider(type = RoleDynaSqlProvider.class, method = "findRolesByPermissionId")
+    List<Role> findRolesByPermissionId(Integer id);
 }

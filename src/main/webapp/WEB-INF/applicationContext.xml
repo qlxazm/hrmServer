@@ -7,6 +7,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:component-scan base-package="org.hrm"/>
+    <!--引入配置文件-->
+    <context:property-placeholder location="classpath:redis.properties" ignore-unresolvable="true"/>
 
     <!--mybatis:scan会扫描com.myapp.hrmanagement.dao包里面的所有接口当作spring的bean配置，之后可以进行依赖注入-->
     <mybatis:scan base-package="org.hrm.dao"/>
@@ -25,6 +27,30 @@
     <bean id="tokenProvider" class="org.hrm.utils.TokenProvider">
         <property name="duration" value="360"/>
     </bean>
+
+    <!--redis template配置-->
+    <bean id="stringRedisSerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+    <bean id="jdkSerializationRedisSerializer" class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+    <bean class="org.springframework.data.redis.core.RedisTemplate"
+        p:connectionFactory-ref="jedisConnectionFactory"
+        p:keySerializer-ref="stringRedisSerializer"
+        p:valueSerializer-ref="jdkSerializationRedisSerializer"/>
+
+    <!--redis缓冲池配置-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}"/>
+        <property name="maxWaitMillis" value="${redis.maxWair}"/>
+        <property name="maxTotal" value="${redis.maxActive}"/>
+    </bean>
+
+    <!--redis连接工厂-->
+    <bean id="jedisConnectionFactory"
+          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:hostName="${redis.host}"
+          p:port="${redis.port}"
+          p:poolConfig-ref="jedisPoolConfig"
+          p:usePool="true"
+    />
 
     <!--启用支持annotation注解方式事务管理-->
     <tx:annotation-driven transaction-manager="transactionManager"/>

@@ -1,16 +1,19 @@
 package org.hrm.security;
 
 import org.hrm.filter.MyTokenFilter;
+import org.hrm.service.HrmService;
 import org.hrm.utils.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.AuthenticatedVoter;
 import org.springframework.security.access.vote.UnanimousBased;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -45,6 +48,12 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private MyAccessDeniedHandler myAccessDeniedHandler;
+
+    @Autowired
+    private RedisTemplate<String, String> template;
+
+    @Autowired
+    private HrmService service;
 
     /**
      * 用于用户认证
@@ -114,7 +123,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AccessDecisionManager accessDecisionManager() {
         List<AccessDecisionVoter<? extends Object>> decisionVoters = Arrays.asList(
-//            new WebExpressionVoter(),
+            new WebExpressionVoter(),
             new RoleBasedVoter(),
             new AuthenticatedVoter()
         );
@@ -127,6 +136,6 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource(FilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource) {
-        return new MyFilterInvocationSecurityMetadataSource(filterInvocationSecurityMetadataSource);
+        return new MyFilterInvocationSecurityMetadataSource(template, service);
     }
 }
