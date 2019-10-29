@@ -1,6 +1,5 @@
 package org.hrm.security;
 
-import org.hrm.filter.MyTokenFilter;
 import org.hrm.service.HrmService;
 import org.hrm.utils.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +10,12 @@ import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.AuthenticatedVoter;
-import org.springframework.security.access.vote.UnanimousBased;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.FilterInvocationSecurityMetadataSourceParser;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
@@ -84,7 +80,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 })
                /* .antMatchers("/info").hasAnyAuthority("ROLE_ROOT")
                 .antMatchers("/home").hasAnyAuthority("ROLE_USER")*/
-                .antMatchers("/authenticate").permitAll()
+                .antMatchers("/user/login").permitAll()
              .and()
                 .csrf()
                 .disable()

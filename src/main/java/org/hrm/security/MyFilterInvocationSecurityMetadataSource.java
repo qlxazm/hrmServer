@@ -27,7 +27,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
             for (Role role : permission.getRoles()){
                 roleList.add(new SecurityConfig(role.getRoleName()));
             }
-            urlRoleMap.put(permission.getPermission(), roleList);
+            urlRoleMap.put(permission.getPermissionName(), roleList);
         }
 
     }

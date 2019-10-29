@@ -3,7 +3,11 @@ package org.hrm.dao.provider;
 import org.apache.ibatis.jdbc.SQL;
 import org.hrm.domain.User;
 
-import static org.hrm.utils.HrmConstants.*;
+import static org.hrm.utils.HrmConstants.ROLE;
+import static org.hrm.utils.HrmConstants.USERTABLE;
+import static org.hrm.utils.HrmConstants.USER_ROLE;
+import static org.hrm.utils.HrmConstants.PERMISSION;
+import static org.hrm.utils.HrmConstants.ROLE_PERMISSION;
 
 public class RoleDynaSqlProvider {
 
@@ -16,16 +20,14 @@ public class RoleDynaSqlProvider {
         String sql = new SQL(){
             {
                 SELECT("roleName, roleNikeName");
-                FROM("`" + SECURITY_ROLE + "` as sr, `" + SECURITY_USER_ROLE + "` as sur, `" + USERTABLE + "` as u");
-                WHERE("u.id = sur.userid");
+                FROM("`" + ROLE + "` as r, `" + USER_ROLE + "` as ur, `" + USERTABLE + "` as u");
+                WHERE("u.id = ur.userId");
                 AND();
-                WHERE(" sr.id = sur.roleid");
+                WHERE(" r.id = ur.roleId");
                 AND();
                 WHERE(" u.username = #{username}");
             }
 
-            /*SELECT roleName,roleNikeName FROM `security_role` as sr, `security_user_role` as sur, `user_inf` as u
-            WHERE u.id = sur.userid AND sr.id = sur.roleid AND u.username = '超级管理员'*/
         }.toString();
         return sql;
     }
@@ -39,12 +41,12 @@ public class RoleDynaSqlProvider {
         String sql = new SQL(){
             {
                 SELECT("roleName, roleNikeName");
-                FROM(SECURITY_PERMISSION + " as sp, " + SECURITY_ROLE_PERMISSION + " as srp, " + SECURITY_ROLE + " as sr");
-                WHERE(" sp.id = srp.permissionId ");
+                FROM(PERMISSION + " as p, " + ROLE_PERMISSION + " as rp, " + ROLE + " as r");
+                WHERE(" p.id = rp.permissionId ");
                 AND();
-                WHERE(" sr.id = srp.roleId ");
+                WHERE(" r.id = rp.roleId ");
                 AND();
-                WHERE(" sp.id = #{permissionId}");
+                WHERE(" p.id = #{permissionId}");
             }
         }.toString();
         return sql;

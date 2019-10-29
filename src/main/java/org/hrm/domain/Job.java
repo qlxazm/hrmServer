@@ -2,9 +2,9 @@ package org.hrm.domain;
 
 import java.io.Serializable;
 
-public class Dept implements Serializable {
+public class Job implements Serializable {
     private Integer id;
-    private String deptName;
+    private String jobName;
     private String remark;
 
     public Integer getId() {
@@ -15,12 +15,12 @@ public class Dept implements Serializable {
         this.id = id;
     }
 
-    public String getDeptName() {
-        return deptName;
+    public String getJobName() {
+        return jobName;
     }
 
-    public void setDeptName(String deptName) {
-        this.deptName = deptName;
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
     }
 
     public String getRemark() {

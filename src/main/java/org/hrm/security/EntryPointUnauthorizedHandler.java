@@ -19,7 +19,7 @@ public class EntryPointUnauthorizedHandler implements AuthenticationEntryPoint {
         httpServletResponse.setCharacterEncoding("UTF-8");
         httpServletResponse.setContentType("application/json");
 
-        httpServletResponse.getWriter().print("{\"code\": 401, \"description\": \"Invalid Token!\", \"data\": \"\"}");
+        httpServletResponse.getWriter().print("{\"code\": 401, \"description\": \"Invalid Password!\", \"data\": \"\"}");
         httpServletResponse.getWriter().flush();
     }
 }

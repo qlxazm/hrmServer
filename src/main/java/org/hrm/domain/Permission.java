@@ -1,12 +1,15 @@
 package org.hrm.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 public class Permission implements Serializable {
     private Integer id;
-    private String permission;
-    private String name;
+    private String permissionName;
+    private String permissionNikeName;
+    private Date createTime;
+    private List<Role> roles;
 
     public List<Role> getRoles() {
         return roles;
@@ -16,8 +19,6 @@ public class Permission implements Serializable {
         this.roles = roles;
     }
 
-    private List<Role> roles;
-
     public Integer getId() {
         return id;
     }
@@ -26,19 +27,27 @@ public class Permission implements Serializable {
         this.id = id;
     }
 
-    public String getPermission() {
-        return permission;
+    public String getPermissionName() {
+        return permissionName;
     }
 
-    public void setPermission(String permission) {
-        this.permission = permission;
+    public void setPermissionName(String permissionName) {
+        this.permissionName = permissionName;
     }
 
-    public String getName() {
-        return name;
+    public String getPermissionNikeName() {
+        return permissionNikeName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPermissionNikeName(String permissionNikeName) {
+        this.permissionNikeName = permissionNikeName;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

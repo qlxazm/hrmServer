@@ -8,13 +8,6 @@ import java.util.List;
 
 public interface HrmService {
     /**
-     * 根据id查询出dept信息
-     * @param dept
-     * @return
-     */
-    Dept findDeptById(Dept dept);
-
-    /**
      * 获取所有的权限
      * @return
      */

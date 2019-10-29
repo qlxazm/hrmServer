@@ -1,6 +1,5 @@
 package org.hrm.dao;
 
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.hrm.dao.provider.UserDynaSqlProvider;
 import org.hrm.domain.User;

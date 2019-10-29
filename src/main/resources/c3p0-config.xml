@@ -5,7 +5,7 @@
         <property name="user">root</property>
         <property name="password">qlxazm</property>
         <property name="driverClass">com.mysql.cj.jdbc.Driver</property>
-        <property name="jdbcUrl">jdbc:mysql://127.0.0.1:3306/hrm_db?serverTimezone=UTC</property>
+        <property name="jdbcUrl">jdbc:mysql://127.0.0.1:3306/hrmServerDb?serverTimezone=UTC</property>
         <property name="minPoolSize">6</property>
         <property name="maxPoolSize">20</property>
         <property name="initialPoolSize">5</property>

@@ -27,12 +27,6 @@ public class HrmServiceImpl implements HrmService {
     private PermissionDao permissionDao;
 
     @Override
-    public Dept findDeptById(Dept dept) {
-        dept = deptDao.selectById(dept.getId());
-        return dept;
-    }
-
-    @Override
     public List<Permission> getAllPermissions() {
         return permissionDao.getAllPermission();
     }
