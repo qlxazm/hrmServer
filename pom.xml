@@ -20,7 +20,7 @@
     <!--spring 版本号-->
     <spring.version>5.1.6.RELEASE</spring.version>
     <!--spring security版本号-->
-    <spring.security.version>5.1.2.RELEASE</spring.security.version>
+    <spring.security.version>5.2.10.RELEASE</spring.security.version>
 
     <!--mybatis 版本号-->
     <mybatis.version>3.2.4</mybatis.version>
